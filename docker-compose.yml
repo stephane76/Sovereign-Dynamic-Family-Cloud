@@ -1,0 +1,46 @@
+services:
+  headscale:
+    image: headscale/headscale:0.29.5
+    container_name: dfc-headscale
+    restart: unless-stopped
+    command: serve
+    networks: [edge]
+    volumes:
+      - ./configs/headscale/config.yaml:/etc/headscale/config.yaml:ro
+      - ./configs/headscale/policy.hujson:/etc/headscale/policy.hujson:ro
+      - /var/lib/dfc-headscale:/var/lib/headscale
+    ports:
+      - '3478:3478/udp'
+    security_opt: [no-new-privileges:true]
+  admission:
+    build: ./admission
+    container_name: dfc-admission
+    restart: unless-stopped
+    networks: [edge]
+    user: "11001:11001"
+    env_file:
+      - ./admission/.env
+    environment:
+      ADMISSION_DB: /data/registry.sqlite3
+      HEADSCALE_URL: http://headscale:8080
+      HEADSCALE_API_KEY_FILE: /run/secrets/headscale_api_key
+    volumes:
+      - /var/lib/dfc-admission:/data
+      - /etc/dfc/headscale-api-key:/run/secrets/headscale_api_key:ro
+    security_opt: [no-new-privileges:true]
+  traefik:
+    image: traefik:v3.7.16
+    container_name: dfc-traefik
+    restart: unless-stopped
+    networks: [edge]
+    ports:
+      - '80:80/tcp'
+      - '443:443/tcp'
+    volumes:
+      - ./configs/traefik/traefik.yml:/etc/traefik/traefik.yml:ro
+      - ./configs/traefik/dynamic:/etc/traefik/dynamic:ro
+      - /var/lib/dfc-acme:/letsencrypt
+    security_opt: [no-new-privileges:true]
+networks:
+  edge:
+    driver: bridge

@@ -1,0 +1,13 @@
+http:
+  routers:
+    headscale:
+      rule: Host(`headscale.yourfamily.eu`)
+      entryPoints: [websecure]
+      service: headscale
+      tls:
+        certResolver: actalis
+  services:
+    headscale:
+      loadBalancer:
+        servers:
+          - url: http://headscale:8080

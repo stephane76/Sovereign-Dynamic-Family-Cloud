@@ -1,0 +1,4 @@
+{
+  // Default deny: no device-to-device traffic until explicit policy rules are reviewed.
+  "acls": []
+}

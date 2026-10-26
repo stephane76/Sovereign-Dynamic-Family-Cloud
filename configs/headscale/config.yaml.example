@@ -1,0 +1,41 @@
+server_url: https://headscale.yourfamily.eu
+listen_addr: 0.0.0.0:8080
+metrics_listen_addr: 127.0.0.1:9090
+grpc_listen_addr: 127.0.0.1:50443
+grpc_allow_insecure: false
+noise:
+  private_key_path: /var/lib/headscale/noise_private.key
+prefixes:
+  v4: 100.64.0.0/10
+  v6: fd7a:115c:a1e0::/48
+  allocation: sequential
+database:
+  type: sqlite
+  sqlite:
+    path: /var/lib/headscale/db.sqlite
+    write_ahead_log: true
+derp:
+  server:
+    enabled: true
+    region_id: 999
+    region_code: ovh-eu
+    region_name: OVH Europe Private Relay
+    verify_clients: true
+    stun_listen_addr: 0.0.0.0:3478
+    private_key_path: /var/lib/headscale/derp_server_private.key
+    automatically_add_embedded_derp_region: true
+  urls: []
+  paths: []
+  auto_update_enabled: false
+dns:
+  magic_dns: true
+  base_domain: internal.yourfamily.eu
+  override_local_dns: false
+policy:
+  mode: file
+  path: /etc/headscale/policy.hujson
+disable_check_updates: true
+node:
+  expiry: 0
+  ephemeral:
+    inactivity_timeout: 30m

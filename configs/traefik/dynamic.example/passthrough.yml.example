@@ -1,0 +1,16 @@
+# Activate only AFTER you have enrolled a real gateway, assigned its actual
+# Tailscale IP, verified TCP reachability from Traefik, and installed a valid
+# certificate at the HOME gateway. Copy this example to passthrough.yml.
+tcp:
+  routers:
+    home:
+      rule: HostSNI(`cloud.yourfamily.eu`)
+      entryPoints: [websecure]
+      service: home
+      tls:
+        passthrough: true
+  services:
+    home:
+      loadBalancer:
+        servers:
+          - address: 'REPLACE_WITH_REAL_TAILSCALE_IP:443'

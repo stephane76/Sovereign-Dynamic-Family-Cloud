@@ -1,0 +1,13 @@
+http:
+  routers:
+    admission-router:
+      rule: "Host(`enroll.yourfamily.eu`)"
+      entryPoints: [websecure]
+      service: admission-service
+      tls:
+        certResolver: actalis
+  services:
+    admission-service:
+      loadBalancer:
+        servers:
+          - url: "http://admission:8000"

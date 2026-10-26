@@ -1,0 +1,26 @@
+entryPoints:
+  web:
+    address: ':80'
+    http:
+      aliasHeadersStrategy: reject
+  websecure:
+    address: ':443'
+    http:
+      aliasHeadersStrategy: reject
+providers:
+  file:
+    directory: /etc/traefik/dynamic
+    watch: true
+certificatesResolvers:
+  actalis:
+    acme:
+      email: admin@yourfamily.eu
+      caServer: ACME_CA_SERVER_PLACEHOLDER
+      storage: /letsencrypt/actalis.json
+      eab:
+        kid: ACME_EAB_KID_PLACEHOLDER
+        hmacEncoded: ACME_EAB_HMAC_PLACEHOLDER
+      httpChallenge:
+        entryPoint: web
+log:
+  level: INFO

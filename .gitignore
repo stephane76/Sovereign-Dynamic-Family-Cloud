@@ -1,0 +1,41 @@
+# Secrets and keys (original rules)
+keys/
+*.key
+*.pem
+
+# Production active (exclude from Git)
+.env
+configs/traefik/traefik.yml
+configs/traefik/dynamic/
+configs/headscale/config.yaml
+configs/headscale/derp.yaml
+*.local
+
+# Additional active configuration files
+configs/headscale/policy.hujson
+configs/headscale/policy.json
+.env.*
+!.env.example
+
+# Databases, certificates, backups, local artifacts
+*.sqlite
+*.sqlite3
+*.db
+*.db-wal
+*.db-shm
+*.crt
+*.p12
+*.pfx
+*.tar
+*.tar.gz
+*.backup
+backups/
+letsencrypt/
+acme.json
+*.log
+__pycache__/
+.DS_Store
+
+# Admission local state and credentials
+/admission/.env
+*.sqlite3-*

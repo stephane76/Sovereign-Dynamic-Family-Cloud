@@ -1,0 +1,11 @@
+regions:
+  999:
+    region_id: 999
+    region_code: "ovh-eu"
+    region_name: "OVH Europe Private Relay"
+    nodes:
+      - name: 999-1
+        region_id: 999
+        hostName: headscale.__DOMAIN__
+        stun_port: 3478
+        derp_port: 443
